@@ -1,0 +1,2 @@
+import {database} from '@/db';import {initialCampaign} from '@/lib/campaign';
+export async function GET(){try{const row=await database().prepare('SELECT value FROM settings WHERE id = ?').bind(1).first<{value:string}>();return Response.json(row?JSON.parse(row.value):initialCampaign,{headers:{'Cache-Control':'no-store'}})}catch(e){console.error('campaign read',e);return Response.json({error:'Não foi possível carregar a campanha.'},{status:503})}}
